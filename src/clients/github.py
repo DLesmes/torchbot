@@ -1,12 +1,13 @@
 """github API client"""
-import datetime
 import json
 import os
-from typing import Dict
-
 import requests
+# Others
 from termcolor import colored
-from utils.transform import preprocess_text
+# Repo imports
+from settings import Settings
+settings = Settings()
+from src.utils.transform import preprocess_text
 
 
 def download_file(url: str, repo_info: dict, jsonl_file_name: str) -> None:
@@ -49,9 +50,8 @@ def download_file(url: str, repo_info: dict, jsonl_file_name: str) -> None:
 
 def process_directory(
     path: str,
-    repo_info: Dict,
-    headers: Dict,
-    jsonl_file_name: str,
+    repo_info: dict,
+    jsonl_file_name: str
 ) -> None:
     """
     Processes a directory in a GitHub repository and downloads the files in it.
@@ -72,6 +72,10 @@ def process_directory(
         TypeError: If the `jsonl_file_name` argument is not a string.
         RuntimeError: If the directory could not be processed.
     """
+    headers = {
+        "Authorization": f"Bearer {settings.GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3.raw",
+    }
     # Si el nombre del directorio es 'zh', lo omite y retorna inmediatamente.
     # Esta característica está implementada para no descargar las traducciones en chino.
     if os.path.basename(path) == "zh":
@@ -84,7 +88,7 @@ def process_directory(
 
     base_url = f"https://api.github.com/repos/{repo_info['owner']}/{repo_info['repo']}/contents/"
     print(
-        colored(f"Procesando directorio: {path} del repo: {repo_info['repo']}", "blue")
+        colored(f" Processing dir: {path} of repo: {repo_info['repo']}", "blue")
     )
     response = requests.get(base_url + path, headers=headers)
 
@@ -105,8 +109,7 @@ def process_directory(
                 process_directory(
                     file["path"],
                     repo_info,
-                    headers,
-                    jsonl_file_name,
+                    jsonl_file_name
                 )
         print(colored("Exito en extracción de documentos del directorio.", "green"))
     else:
