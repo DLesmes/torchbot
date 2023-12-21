@@ -10,6 +10,12 @@ from src.clients.github import process_directory
 
 def scraper():
     """
+    Main function that scrapes documentation files from specified GitHub repositories.
+
+    Raises:
+        yaml.YAMLError: If the configuration file cannot be loaded.
+        OSError: If there are errors creating directories or removing files.
+        RuntimeError: If there are errors processing directories or downloading files.
     """
     config = load_config()
 
