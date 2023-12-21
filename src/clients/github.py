@@ -45,7 +45,7 @@ def download_file(url: str, repo_info: dict, jsonl_file_name: str) -> None:
         with open(jsonl_file_name, "a") as jsonl_file:
             jsonl_file.write(json.dumps(file_dict) + "\n")
     else:
-        print(f"Texto no esperado: {text}")
+        print(f"Text no awaited: {text}")
 
 
 def process_directory(
@@ -81,14 +81,14 @@ def process_directory(
     if os.path.basename(path) == "zh":
         print(
             colored(
-                f"Se omite el directorio 'zh' (traducciones en chino): {path}", "yellow"
+                f"Dir 'zh' omitted (chinese translation): {path}", "yellow"
             )
         )
         return
 
     base_url = f"https://api.github.com/repos/{repo_info['owner']}/{repo_info['repo']}/contents/"
     print(
-        colored(f" Processing dir: {path} of repo: {repo_info['repo']}", "blue")
+        colored(f"⚙️ Processing dir: {path} of repo: {repo_info['repo']}", "blue")
     )
     response = requests.get(base_url + path, headers=headers)
 
@@ -98,8 +98,8 @@ def process_directory(
             if file["type"] == "file" and (
                 file["name"].endswith(".mdx") or file["name"].endswith(".md")
             ):
-                print(colored(f"Descargando documento: {file['name']}", "green"))
-                print(colored(f"Descarga URL: {file['download_url']}", "cyan"))
+                print(colored(f"↕️ downloading file: {file['name']}", "green"))
+                print(colored(f"↕️ requesting URL: {file['download_url']}", "cyan"))
                 download_file(
                     file["download_url"],
                     repo_info,
@@ -111,11 +111,11 @@ def process_directory(
                     repo_info,
                     jsonl_file_name
                 )
-        print(colored("Exito en extracción de documentos del directorio.", "green"))
+        print(colored("✅ Successful directory extraction.", "green"))
     else:
         print(
             colored(
-                "No se pudieron recuperar los archivos. Verifique su token de GitHub y los detalles del repositorio.",
+                "⚠️ The files can't be verified. review your github token and repo details.",
                 "red",
             )
         )
