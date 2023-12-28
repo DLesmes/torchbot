@@ -6,6 +6,8 @@ import logging
 from src.utils.transform import create_dir, remove_existing_file
 from src.config.config import load_config
 from src.clients.github import process_directory
+from src.clients.embeder import Embeder
+embeder = Embeder(large=False)
 
 
 def scraper():
@@ -34,6 +36,11 @@ def scraper():
 
 
 if __name__ == "__main__":
-    scraper()
+    embeder.run(
+        [
+            'embebeme',
+            'a mi tambien'
+        ]
+    )
 
 
