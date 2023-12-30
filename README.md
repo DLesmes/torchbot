@@ -9,10 +9,10 @@ This project aims to simulate a text mesagge chatbot to chat about Pytorch
 
 1. **User Input**: The user types an input message in the Chatbot UI.
 2. **Chatbot UI to Chatbot History**: This message is sent to the Chatbot History where it is stored.
-3. **Chatbot UI to Retriever**: The same message is also sent from the Chatbot UI to the Retriever.
+3. **Chatbot History to Retriever**: The same message is also sent from the Chatbot UI to the Retriever.
 4. **Retriever**: The Retriever processes the input message and augments it with information by querying the Vector Database.
 5. **Augmented Message**: The Retriever sends this augmented message to the Prompt Storage.
-6. **Prompt Storage**: The Prompt Storage receives the augmented message and includes the historical context from the Chatbot History to generate an augmented prompt.
+6. **Prompt Storage**: The Prompt Storage receives the augmented message and add all the LLM paramether to query it definig the augmented prompt.
 7. **Augmented Prompt to LLM**: This augmented prompt is then sent to the Large Language Model (LLM).
 8. **LLM to Chatbot History**: After the LLM generates a response, the full response body is sent back to the Chatbot History.
 9. **Response to UI**: The Chatbot History then sends the appropriate part of the LLM's response to the Chatbot UI.
@@ -26,6 +26,46 @@ In this streamlined architecture, the Chatbot History serves as the central repo
 - **Telegram Chatbot API:** It is powered by the Telegram API Interface
 - **Open Source Vectorial Database:** The chatbot specialised experience use a vector database to augment the precision of the answers
 - **Open Source embeddings:** It use embedding from open source models
+
+## 🫶 Architecture flow - Chatbot Interaction Loop
+
+```
+                                                                                                 
+           +----------------+          +--------------------+                                    
+           |                |(9) output|                    |                                    
+           |  Chatbot UI    +<-------->|  Chatbot History   |<--------------+                                    
+           |                |(1) input |                    |               |                      
+           +--------+-------+          +---------+----------+               |                      
+                                                 |                          |                      
+                    +----------------------------+                          |                                     
+                    | (3) message                                           |                                     
+                    v                                                       |                                     
+           +--------+---------+             +---------------------+    (4)  |           
+           |                  |             |                     |         |           
+           |    Retriever     +------------>|   Vector Database   |         |           
+           |                  |             |                     |         |           
+           +--------+---------+             +---------------------+         |                                            
+                    |                                                       |
+                    | (5) Augmented message                                 |                                     
+                    v                                                       |                                     
+           +--------+---------+                                             |                                     
+           |                  |                                             |                                     
+           |  Prompt Storage  |                                             |
+           |                  |                                             |
+           +--------+---------+                                             |                                     
+                    |                                                       |                                     
+                    | (6) Augmented prompt with LLM params                  |                                     
+                    |                                                       |                                     
+                    v                                                       |                                     
+           +--------+------------+                                          |                                     
+           |                     |                                          |                                     
+           |        LLM          |   (7) Generate response                  |                                     
+           |  (Large Language    +------------------------------------------+                                     
+           |      Model)         |                                                                       
+           |                     |                                                                       
+           +---------------------+                                                                       
+                                                                             
+```
 
 ### ✍️ Prerequisites
 Before you begin, make sure you have the following prerequisites:
