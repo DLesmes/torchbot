@@ -8,6 +8,7 @@ from src.config.config import load_config
 from src.clients.github import process_directory
 from src.clients.embeder import Embeder
 embeder = Embeder(large=False)
+from src.clients.telegram import print_new_messages
 
 
 def scraper():
@@ -36,11 +37,6 @@ def scraper():
 
 
 if __name__ == "__main__":
-    embeder.run(
-        [
-            'embebeme',
-            'a mi tambien'
-        ]
-    )
+    print_new_messages()
 
 

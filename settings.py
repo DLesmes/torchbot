@@ -6,3 +6,4 @@ load_dotenv()
 
 class Settings:
     GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+    TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
