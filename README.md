@@ -5,6 +5,17 @@ Code for a Telegram bot 📠 specialiced on Pytorch LLM powered
 ## 🤖 Overview
 This project aims to simulate a text mesagge chatbot to chat about Pytorch
 
+In this streamlined architecture, the Chatbot History serves as the central repository of the interaction history, supporting both the retrieval of historical context and the logging of new interactions, including full responses from the LLM. The Chatbot UI, Retriever, Vector Database, Prompt Storage, and LLM all play roles in a fluid conversation loop, providing the user a seamless chat experience.
+
+## 👌 Features
+- **LLM Usage:** Integration with a Large Language Model (LLM) into the conversation
+- **Langchaing:** It use lanchain framework to back and forth with differents LLMs
+- **Telegram Chatbot API:** It is powered by the Telegram API Interface
+- **Open Source Vectorial Database:** The chatbot specialised experience use a vector database to augment the precision of the answers
+- **Open Source embeddings:** It use embedding from open source models
+
+## 🫶 Architecture flow - Chatbot Interaction Loop
+
 ### 🧡 Explanation of the architecture flow:
 
 1. **User Input**: The user types an input message in the Chatbot UI.
@@ -18,39 +29,27 @@ This project aims to simulate a text mesagge chatbot to chat about Pytorch
 9. **Response to UI**: The Chatbot History then sends the appropriate part of the LLM's response to the Chatbot UI.
 10. **Display to User**: The Chatbot UI displays the answer to the user.
 
-In this streamlined architecture, the Chatbot History serves as the central repository of the interaction history, supporting both the retrieval of historical context and the logging of new interactions, including full responses from the LLM. The Chatbot UI, Retriever, Vector Database, Prompt Storage, and LLM all play roles in a fluid conversation loop, providing the user a seamless chat experience.
-
-## 👌 Features
-- **LLM Usage:** Integration with a Large Language Model (LLM) into the conversation
-- **Langchaing:** It use lanchain framework to back and forth with differents LLMs
-- **Telegram Chatbot API:** It is powered by the Telegram API Interface
-- **Open Source Vectorial Database:** The chatbot specialised experience use a vector database to augment the precision of the answers
-- **Open Source embeddings:** It use embedding from open source models
-
-## 🫶 Architecture flow - Chatbot Interaction Loop
-
 ```
-                                                                                                 
-           +----------------+          +--------------------+                                    
-           |                |(9) output|                    |                                    
-           |  Chatbot UI    +<-------->|  Chatbot History   |<--------------+                                    
-           |                |(1) input |                    |               |                      
-           +--------+-------+          +---------+----------+               |                      
+           +----------------+          +---------------------+                                    
+           |                |(9) output|                     |                                    
+           |  Chatbot UI 💬  +<-------->|  Chatbot History 📜 |<-------------+                                    
+           |                |(1) input |                     |              |                      
+           +--------+-------+          +---------+-----------+              |                      
                                                  |                          |                      
                     +----------------------------+                          |                                     
                     | (3) message                                           |                                     
                     v                                                       |                                     
-           +--------+---------+             +---------------------+    (4)  |           
-           |                  |             |                     |         |           
-           |    Retriever     +------------>|   Vector Database   |         |           
-           |                  |             |                     |         |           
-           +--------+---------+             +---------------------+         |                                            
+           +--------+---------+             +----------------------+   (4)  |           
+           |                  |             |                      |        |           
+           |    Retriever 🔎  +------------>|   Vector Database 💾  |        |           
+           |                  |             |                      |        |           
+           +--------+---------+             +----------------------+        |                                            
                     |                                                       |
                     | (5) Augmented message                                 |                                     
                     v                                                       |                                     
            +--------+---------+                                             |                                     
            |                  |                                             |                                     
-           |  Prompt Storage  |                                             |
+           |Prompt Storage 📝 |                                             |
            |                  |                                             |
            +--------+---------+                                             |                                     
                     |                                                       |                                     
@@ -59,7 +58,7 @@ In this streamlined architecture, the Chatbot History serves as the central repo
                     v                                                       |                                     
            +--------+------------+                                          |                                     
            |                     |                                          |                                     
-           |        LLM          |   (7) Generate response                  |                                     
+           |        LLM 🧠       |   (7) Generate response                  |                                     
            |  (Large Language    +------------------------------------------+                                     
            |      Model)         |                                                                       
            |                     |                                                                       
