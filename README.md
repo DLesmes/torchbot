@@ -30,13 +30,22 @@ In this streamlined architecture, the Chatbot History serves as the central repo
 10. **Display to User**: The Chatbot UI displays the answer to the user.
 
 ```
-           +----------------+          +---------------------+                                    
-           |                |(9) output|                     |                                    
-           |  Chatbot UI 💬  +<-------->|  Chatbot History 📜 |<-------------+                                    
-           |                |(1) input |                     |              |                      
-           +--------+-------+          +---------+-----------+              |                      
-                                                 |                          |                      
-                    +----------------------------+                          |                                     
+
+           +--------+--------+                                                                                  
+           |                 |                                             
+           |  Chatbot UI 💬  | 
+           |                 |                                             
+           +--------+--------+
+                    ^
+                    |                                         
+           (1) input|(9) output
+                    v                                                        
+           +--------------------+                                    
+           |                    |                     
+           | Chatbot History 📜 +<------------------------------------------+                                    
+           |                    |                                           |  
+           +--------+-----------+                                           |                      
+                    |                                                       |                      
                     | (3) message                                           |                                     
                     v                                                       |                                     
            +--------+---------+             +----------------------+   (4)  |           
