@@ -30,49 +30,49 @@ In this streamlined architecture, the Chatbot History serves as the central repo
 10. **Display to User**: The Chatbot UI displays the answer to the user.
 
 ```
-
-           +--------+--------+                                                                                  
-           |                 |                                             
-           |  Chatbot UI 💬  | 
-           |                 |                                             
-           +--------+--------+
-                    ^
-                    |                                         
-           (1) input|(9) output
-                    v                                                        
-           +--------------------+                                    
-           |                    |                     
-           | Chatbot History 📜 +<------------------------------------------+                                    
-           |                    |                                           |  
-           +--------+-----------+                                           |                      
-                    |                                                       |                      
-                    | (3) message                                           |                                     
-                    v                                                       |                                     
-           +--------+---------+             +----------------------+   (4)  |           
-           |                  |             |                      |        |           
-           |    Retriever 🔎  +------------>|   Vector Database 💾  |        |           
-           |                  |             |                      |        |           
-           +--------+---------+             +----------------------+        |                                            
-                    |                                                       |
-                    | (5) Augmented message                                 |                                     
-                    v                                                       |                                     
-           +--------+---------+                                             |                                     
-           |                  |                                             |                                     
-           |Prompt Storage 📝 |                                             |
-           |                  |                                             |
-           +--------+---------+                                             |                                     
-                    |                                                       |                                     
-                    | (6) Augmented prompt with LLM params                  |                                     
-                    |                                                       |                                     
-                    v                                                       |                                     
-           +--------+------------+                                          |                                     
-           |                     |                                          |                                     
-           |        LLM 🧠       |   (7) Generate response                  |                                     
-           |  (Large Language    +------------------------------------------+                                     
-           |      Model)         |                                                                       
-           |                     |                                                                       
-           +---------------------+                                                                       
-                                                                             
+                      
+                                            +--------+--------+                                                                                  
+                                            |                 |                                             
+                                            |  Chatbot UI 💬  | 
+                                            |                 |                                             
+                                            +--------+--------+
+                                                     ^
+                                                     |                                         
+                                            (1) input|(9) output
+                                                     v                                                        
+                                            +--------+-----------+                                    
+                                            |                    |                     
+                                            | Chatbot History 📜 +<-------------------------------+                                    
+                                            |                    |                                |  
+                                            +--------+-----------+                                |                      
+                                                     |                                            |                      
+                                                     | (3) message                                |                                     
+                                                     v                                            |                                     
+           +-------------------+           +---------+------------+   (4)                         |
+           |                   |           |                      |                               |
+           |Vector Database 💾 +---------->|     Retriever 🔎      |                              |           
+           |                   |           |                      |                               |           
+           +-------------------+           +---------+------------+                               |                                            
+                                                     |                                            |
+                                                     | (5) Augmented message                      |                                     
+                                                     v                                            |                                     
+                                            +--------+---------+                                  |                                     
+                                            |                  |                                  |                                     
+                                            |Prompt Storage 📝 |                                  |
+                                            |                  |                                  |
+                                            +--------+---------+                                  |                                     
+                                                     |                                            |                                     
+                                                     | (6) Augmented prompt with LLM params       |                                     
+                                                     |                                            |                                     
+                                                     v                                            |                                     
+                                            +--------+-----------+                                |                                     
+                                            |                    |                                |                                     
+                                            |        LLM 🧠      |   (7) Generate response        |                                     
+                                            |  (Large Language   +--------------------------------+                                     
+                                            |      Model)        |                                                                       
+                                            |                    |                                                                       
+                                            +--------------------+                                                                       
+                                                                                                              
 ```
 
 ### ✍️ Prerequisites
