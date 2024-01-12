@@ -2,6 +2,7 @@
 # base
 import yaml
 import os
+import logging
 
 
 def load_config():
@@ -17,3 +18,31 @@ def load_config():
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
+
+
+class YamlLoader:
+    """
+    load the config yaml files
+
+    Returns:
+        a dict with the file configs
+    """
+    def __init__(self, version: str = None):
+        self.version = version
+
+    def prompts(self):
+        """
+        :returns the full prompt for the version given
+        """
+        root_dir = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(root_dir, "prompts.yaml")) as stream:
+            try:
+                prompt = yaml.safe_load(stream)
+                prompt_config = prompt.get(self.version)
+                if prompt_config is not None:
+                    return prompt_config
+                else:
+                    logging.info(f"The prompt version {self.version} do not exits!!")
+            except yaml.YAMLError as exc:
+                print(exc)
+                logging.error(f"Error generating LLM response: {e}")
