@@ -5,6 +5,7 @@ requests==2.30.0
 pyyaml==6.0
 termcolor==2.3.0
 emoji==2.5.0
+pre-commit==3.6.0
 
 # LLM
 langchain==0.0.209
