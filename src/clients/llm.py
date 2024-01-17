@@ -13,7 +13,7 @@ from langchain.memory import ConversationBufferWindowMemory
 
 # repo
 from src.config.config import YamlLoader
-yamlloader = YamlLoader('0.0.0')
+yamlloader = YamlLoader('0.0.1')
 
 
 class Brain:
@@ -26,9 +26,11 @@ class Brain:
         """
         self.prompt = yamlloader.prompts()
 
-    def chat(self):
+    def chat(self, user_input: str):
         """
         Use a LLM to generate an answer to the user
+
+        :param user_input: user input
         :return: the object to interact with the LLM
         """
         if self.prompt['supplier'] == 'openai':
@@ -43,9 +45,19 @@ class Brain:
                 messages=[
                     SystemMessagePromptTemplate.from_template(self.prompt['system']),
                     MessagesPlaceholder(variable_name="chat_history"),
-                    HumanMessagePromptTemplate.from_template("{user_input}")
+                    HumanMessagePromptTemplate.from_template("f{user_input}")
                 ]
             )
-            memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=3)
-            chat = LLMChain(llm=llm, prompt=prompt, memory=memory)
+            memory = ConversationBufferWindowMemory(
+                memory_key="chat_history",
+                return_messages=True,
+                k=4,
+                input_key="user_input"
+            )
+            chat = LLMChain(
+                llm=llm,
+                prompt=prompt,
+                memory=memory,
+                chain_type="stuff"
+            )
             return chat
