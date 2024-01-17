@@ -104,7 +104,44 @@ Follow these steps to set up and run the project:
     ```
 You can also debug it in your preferred IDE.
 
+### 🏥 Chatbot history file
 
+By default a history.json file will be created simulating a no-SQL database that can be develop for next versions this file i mind to be like this:
+
+  ```
+  {
+      "<user_id>": [
+          {
+              "chat": [
+                  {
+                      "repleyId": int, // reply id
+                      "role": str, // role of the user
+                      "content": srt, // message content
+                      "timestamp": int, // timestamp in milliseconds
+                  },
+                  {
+                      "messageId": "msg2",
+                      "userId": "user2",
+                      "content": "I have a question about product X.",
+                      "timestamp": "2022-01-01T09:01:00Z"
+                  },
+                  {
+                      "messageId": "msg3",
+                      "userId": "user1",
+                      "content": "Sure, I'm here to help. What do you need to know?",
+                      "timestamp": "2022-01-01T09:02:00Z"
+                  },
+                  {
+                      "messageId": "msg4",
+                      "userId": "user2",
+                      "content": "..."
+                  }
+              ]
+          }
+      ]
+  }
+  ```
+ 
 ## 🤝 Contributing
 
 Feel free to contribute and make this chatbot project even better!
