@@ -112,7 +112,7 @@ By default a history.json file will be created simulating a no-SQL database that
   {
       "<user_id>": [
           {
-              "chat": [
+              "<chat_id>": [
                   {
                       "reply_id": srt, // reply id
                       "role": "system", // by default the first reply role is the "system"
@@ -136,7 +136,7 @@ By default a history.json file will be created simulating a no-SQL database that
                       "role": str, // role of the user
                       "content": srt, // message content
                       "timestamp": int, // timestamp in milliseconds
-                  },
+                  }
               ]
           }
       ]
