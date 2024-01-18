@@ -114,28 +114,29 @@ By default a history.json file will be created simulating a no-SQL database that
           {
               "chat": [
                   {
-                      "repleyId": int, // reply id
-                      "role": str, // role of the user
+                      "reply_id": srt, // reply id
+                      "role": "system", // by default the first reply role is the "system"
                       "content": srt, // message content
                       "timestamp": int, // timestamp in milliseconds
                   },
                   {
-                      "messageId": "msg2",
-                      "userId": "user2",
-                      "content": "I have a question about product X.",
-                      "timestamp": "2022-01-01T09:01:00Z"
+                      "reply_id": str, // reply id
+                      "role": "user", // by default the second reply role is the "user"
+                      "content": srt, // message content
+                      "timestamp": int, // timestamp in milliseconds
                   },
                   {
-                      "messageId": "msg3",
-                      "userId": "user1",
-                      "content": "Sure, I'm here to help. What do you need to know?",
-                      "timestamp": "2022-01-01T09:02:00Z"
+                      "reply_id": str, // reply id
+                      "role": "assitant", // by default the third reply role is the "assistant"
+                      "content": srt, // message content
+                      "timestamp": int, // timestamp in milliseconds
                   },
                   {
-                      "messageId": "msg4",
-                      "userId": "user2",
-                      "content": "..."
-                  }
+                      "reply_id": str, // reply id
+                      "role": str, // role of the user
+                      "content": srt, // message content
+                      "timestamp": int, // timestamp in milliseconds
+                  },
               ]
           }
       ]
