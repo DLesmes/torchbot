@@ -104,7 +104,7 @@ Follow these steps to set up and run the project:
     ```
 You can also debug it in your preferred IDE.
 
-### 🏥 Chatbot history file
+## 🏥 Chatbot history file
 
 By default a history.json file will be created simulating a no-SQL database that can be develop for next versions this file i mind to be like this:
 
@@ -140,6 +140,22 @@ By default a history.json file will be created simulating a no-SQL database that
               ]
           }
       ]
+  }
+  ```
+# Request history file
+
+By default a request.json file will be created simulating a no-SQL database that can be develop for next versions this file i mind to be like this:
+
+  ```
+  {
+      "<reply_id>": [
+        {
+            "user_id": srt, // reply id
+            "prompt": srt, // message content
+            "response": int, // timestamp in milliseconds
+            "timestamp": int, // timestamp in milliseconds
+        }
+    ]
   }
   ```
  
