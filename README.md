@@ -106,7 +106,7 @@ You can also debug it in your preferred IDE.
 
 ## 🏥 Chatbot history file
 
-By default a history.json file will be created simulating a no-SQL database that can be develop for next versions this file i mind to be like this:
+By default a history.json file will be created simulating a no-SQL database that can be develop for next versions this file its mind to be like this:
 
   ```
   {
@@ -144,7 +144,7 @@ By default a history.json file will be created simulating a no-SQL database that
   ```
 # Request history file
 
-By default a request.json file will be created simulating a no-SQL database that can be develop for next versions this file i mind to be like this:
+By default a request.json file will be created simulating a no-SQL database that can be develop for next versions this file its mind to be like this:
 
   ```
   {
