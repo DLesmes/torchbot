@@ -9,6 +9,7 @@ from src.clients.github import process_directory
 from src.clients.embeder import Embeder
 embeder = Embeder(large=False)
 from src.clients.telegram import print_new_messages
+from src.models.message import Message
 
 
 def scraper():
@@ -37,6 +38,10 @@ def scraper():
 
 
 if __name__ == "__main__":
-    print_new_messages()
-
-
+    message = Message(
+        user_id='1234567890',
+        chat_id='qwertyuio',
+        role='me',
+        content='what about you?'
+    )
+    message.save()
