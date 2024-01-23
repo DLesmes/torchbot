@@ -10,8 +10,8 @@ embeder = Embeder(large=False)
 from src.services.scraper import Scraper
 scraper = Scraper()
 from src.services.chat import Chat
-chat = Chat()
 
 
 if __name__ == "__main__":
+    chat = Chat('3193713748')
     chat.start()

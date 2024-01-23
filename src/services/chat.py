@@ -13,8 +13,9 @@ telegram = Telegram()
 
 class Chat:
     """ chat service """
-    def __init__(self):
+    def __init__(self, user_id: str):
         self.offset = 0
+        self.user_id = user_id
 
     def start(self):
         """ start the chat
@@ -27,7 +28,7 @@ class Chat:
                     logging.info(reply)
                     print(reply)
                     message = Message(
-                        user_id=reply['message']['from']['id'],
+                        user_id=self.user_id,
                         chat_id=reply['message']['chat']['id'],
                         role='user',
                         content=reply['message']['text'],

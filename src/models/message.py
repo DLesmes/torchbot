@@ -22,7 +22,7 @@ class Message:
         self.role = role
         self.content = content
         self.timestamp = timestamp
-        self.file = 'config/history.json'
+        self.file = 'data/history.json'
         if not os.path.exists(self.file):
             json.dump({}, open(self.file, 'w'))
 
