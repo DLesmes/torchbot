@@ -10,7 +10,7 @@ class Message:
     def __init__(
             self,
             user_id: str,
-            chat_id: str,
+            chat_id: int = -1,
             role: str = None,
             content: str = None,
             timestamp: str = int(time.time())
@@ -27,25 +27,43 @@ class Message:
             json.dump({}, open(self.file, 'w'))
 
     def reply(self):
-        reply = {
+        return {
             'reply_id': self.reply_id,
             'role': self.role,
             'content': self.content,
             'timestamp': self.timestamp
         }
-        return reply
 
-    def save(self):
+    def system_reply(self):
+        return {
+            'reply_id': self.reply_id,
+            'role': 'system',
+            'content': 'prompt system',
+            'timestamp': self.timestamp
+        }
+
+    def new_user(self):
         dict_history = json.load(open(self.file))
-        if self.user_id in dict_history:
-            temp_dict = dict_history[self.user_id].copy()
-
-            # Modify the copied dictionary
-            if self.chat_id in temp_dict:
-                temp_dict[self.chat_id].append(self.reply())
-
-            # Update the original dictionary with the modified copy
-            dict_history[self.user_id] = temp_dict
+        if self.user_id not in dict_history.keys():
+            dict_history[self.user_id] = [{'full_chat': [self.system_reply()]}]
+            dict_history[self.user_id][self.chat_id]['full_chat'].append(self.reply())
+            json.dump(dict_history, open(self.file, 'w'))
         else:
-            dict_history[self.user_id] = {self.chat_id: [self.reply()]}
-        json.dump(dict_history, open(self.file, 'w'))
+            self.new_chat()
+
+    def new_chat(self):
+        dict_history = json.load(open(self.file))
+        if self.user_id in dict_history.keys():
+            dict_history[self.user_id].append({'full_chat': [self.system_reply()]})
+            dict_history[self.user_id][self.chat_id]['full_chat'].append(self.reply())
+            json.dump(dict_history, open(self.file, 'w'))
+        else:
+            self.new_user()
+
+    def update(self):
+        dict_history = json.load(open(self.file))
+        if self.user_id in dict_history.keys():
+            dict_history[self.user_id][int(self.chat_id)]['full_chat'].append(self.reply())
+            json.dump(dict_history, open(self.file, 'w'))
+        else:
+            self.new_user()
