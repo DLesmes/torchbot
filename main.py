@@ -14,11 +14,5 @@ from src.models.message import Message
 
 
 if __name__ == "__main__":
-    # chat = Chat('3193713784')
-    # chat.start()
-    message = Message(
-        user_id='3013713784',
-        role='user',
-        content='saving the 3rd message'
-    )
-    message.update()
+    chat = Chat('3193713784')
+    chat.start()

@@ -29,12 +29,11 @@ class Chat:
                     print(reply)
                     message = Message(
                         user_id=self.user_id,
-                        chat_id=reply['message']['chat']['id'],
                         role='user',
                         content=reply['message']['text'],
                         timestamp=reply['message']['date']
                     )
-                    message.save()
+                    message.update()
                 time.sleep(int(settings.LISTENER_AWAITING))
         except Exception as e:
             default_error_message = f"Error chatting: {e}"
