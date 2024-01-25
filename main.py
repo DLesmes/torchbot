@@ -17,9 +17,8 @@ if __name__ == "__main__":
     # chat = Chat('3193713784')
     # chat.start()
     message = Message(
-        user_id='3003713784',
+        user_id='3013713784',
         role='user',
-        content='saving the 2nd message',
-        chat_id=2
+        content='saving the 3rd message'
     )
     message.update()

@@ -1,7 +1,7 @@
 # config file to simulate the prompt storage
 
 general:
-  version:
+  versions:
 
     - version_id: 0.0.0
       supplier: openai

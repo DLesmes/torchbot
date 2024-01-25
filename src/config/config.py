@@ -37,12 +37,14 @@ class YamlLoader:
         root_dir = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(root_dir, "prompts.yaml")) as stream:
             try:
-                prompt = yaml.safe_load(stream)
-                prompt_config = prompt.get(self.version)
+                prompts = yaml.safe_load(stream)
+                for prompt in prompts['general']['versions']:
+                    if prompt["version_id"] == self.version:
+                        prompt_config = prompt
                 if prompt_config is not None:
                     return prompt_config
                 else:
                     logging.info(f"The prompt version {self.version} do not exits!!")
             except yaml.YAMLError as exc:
                 print(exc)
-                logging.error(f"Error generating LLM response: {e}")
+                logging.error(f"Error generating LLM response: {exc}")

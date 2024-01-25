@@ -1,9 +1,14 @@
 """ Message Model """
-
+# Base
 import json
 import os
 import uuid
 import time
+# repo imports
+from settings import Settings
+settings = Settings()
+from src.config.config import YamlLoader
+yamlloader = YamlLoader(settings.VERSION)
 
 
 class Message:
@@ -35,10 +40,11 @@ class Message:
         }
 
     def system_reply(self):
+        prompt = yamlloader.prompts()
         return {
             'reply_id': self.reply_id,
             'role': 'system',
-            'content': 'prompt system',
+            'content': prompt['system'],
             'timestamp': self.timestamp
         }
 
@@ -46,7 +52,7 @@ class Message:
         dict_history = json.load(open(self.file))
         if self.user_id not in dict_history.keys():
             dict_history[self.user_id] = [{'full_chat': [self.system_reply()]}]
-            dict_history[self.user_id][self.chat_id]['full_chat'].append(self.reply())
+            dict_history[self.user_id][-1]['full_chat'].append(self.reply())
             json.dump(dict_history, open(self.file, 'w'))
         else:
             self.new_chat()
@@ -55,7 +61,7 @@ class Message:
         dict_history = json.load(open(self.file))
         if self.user_id in dict_history.keys():
             dict_history[self.user_id].append({'full_chat': [self.system_reply()]})
-            dict_history[self.user_id][self.chat_id]['full_chat'].append(self.reply())
+            dict_history[self.user_id][-1]['full_chat'].append(self.reply())
             json.dump(dict_history, open(self.file, 'w'))
         else:
             self.new_user()
