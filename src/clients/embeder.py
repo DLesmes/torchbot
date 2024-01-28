@@ -31,6 +31,18 @@ class Embeder:
         else:
             self.model = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
+    def instructor(self):
+        if self.large:
+            embed = HuggingFaceInstructEmbeddings(
+                model_name=self.model,
+                model_kwargs={"device": self.device}
+            )
+        else:
+            embed = SentenceTransformerEmbeddings(
+                model_name=self.model
+            )
+        return embed
+
     def run(
             self,
             docs_list: list,
@@ -42,14 +54,6 @@ class Embeder:
         """
         if docs_list is None:
             docs_list = ['']
-        if self.large:
-            embed = HuggingFaceInstructEmbeddings(
-                model_name=self.model,
-                model_kwargs={"device": self.device}
-            )
-        else:
-            embed = SentenceTransformerEmbeddings(
-                model_name=self.model
-            )
+        embed = self.instructor()
 
         return embed.embed_documents(docs_list)

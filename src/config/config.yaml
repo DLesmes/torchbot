@@ -7,6 +7,6 @@ github:
 
     - owner: Pytorch
       repo: Pytorch
-      path: docs
+      path: torch
 
 jsonl_database_path: data/docs_en_2023_12_20.jsonl

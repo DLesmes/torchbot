@@ -11,8 +11,9 @@ from src.services.scraper import Scraper
 scraper = Scraper()
 from src.services.chat import Chat
 from src.models.message import Message
-
+from src.services.retriever import Retriever
+retriever = Retriever()
 
 if __name__ == "__main__":
-    chat = Chat('3193713784')
-    chat.start()
+    res = retriever.query('What is a tensor')
+    print(res)
