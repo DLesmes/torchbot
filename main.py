@@ -15,5 +15,5 @@ from src.services.retriever import Retriever
 retriever = Retriever()
 
 if __name__ == "__main__":
-    res = retriever.query('What is a tensor')
+    res = retriever.query('What is .nn?')
     print(res)

@@ -53,5 +53,5 @@ class Retriever:
             embedding_function=embeder.instructor(),
             persist_directory=self.index_name
         )
-        db_retriever = vectorial_db.as_retriever(search_kwargs={'k': k})
-        return db_retriever.get_relevant_documents(message)
+        res = vectorial_db.similarity_search_with_score(message, k=k)
+        return [vector[0].page_content for vector in res if vector[1] > 0.75]
