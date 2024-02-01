@@ -9,7 +9,8 @@ settings = Settings()
 from src.models.message import Message
 from src.clients.telegram import Telegram
 telegram = Telegram()
-
+from src.services.retriever import Retriever
+retriever = Retriever()
 
 class Chat:
     """ chat service """
@@ -34,6 +35,8 @@ class Chat:
                         timestamp=reply['message']['date']
                     )
                     message.update()
+                    res = retriever.query(reply['message']['text'])
+                    print(res)
                 time.sleep(int(settings.LISTENER_AWAITING))
         except Exception as e:
             default_error_message = f"Error chatting: {e}"

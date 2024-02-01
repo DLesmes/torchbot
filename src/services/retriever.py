@@ -54,4 +54,4 @@ class Retriever:
             persist_directory=self.index_name
         )
         res = vectorial_db.similarity_search_with_score(message, k=k)
-        return [vector[0].page_content for vector in res if vector[1] > 0.75]
+        return [vector[0].page_content for vector in res if vector[1] < 0.25]

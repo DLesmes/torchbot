@@ -15,5 +15,5 @@ from src.services.retriever import Retriever
 retriever = Retriever()
 
 if __name__ == "__main__":
-    res = retriever.query('What is .nn?')
-    print(res)
+    chatbot = Chat(user_id='3001234567')
+    chatbot.start()
