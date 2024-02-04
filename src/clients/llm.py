@@ -12,8 +12,10 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferWindowMemory
 
 # repo
+from settings import Settings
+settings = Settings()
 from src.config.config import YamlLoader
-yamlloader = YamlLoader('0.0.1')
+yamlloader = YamlLoader(settings.VERSION)
 
 
 class Brain:
@@ -25,6 +27,10 @@ class Brain:
         Import all necessary prompt parameters needed to query the LLM, set on config prompt yaml file
         """
         self.prompt = yamlloader.prompts()
+        self.kwars = {
+            # "max_lenght": self.prompt['max_length'],
+            "top_p": self.prompt['top_p']
+        }
 
     def chat(self, user_input: str):
         """
@@ -37,27 +43,25 @@ class Brain:
             llm = ChatOpenAI(
                 model=self.prompt['model'],
                 temperature=self.prompt['temperature'],
-                max_length=self.prompt['max_length'],
                 max_tokens=self.prompt['max_tokens'],
-                top_p=self.prompt['top_p']
+                model_kwargs=self.kwars
             )
             prompt = ChatPromptTemplate(
                 messages=[
                     SystemMessagePromptTemplate.from_template(self.prompt['system']),
                     MessagesPlaceholder(variable_name="chat_history"),
-                    HumanMessagePromptTemplate.from_template("f{user_input}")
+                    HumanMessagePromptTemplate.from_template(f"{user_input}")
                 ]
             )
             memory = ConversationBufferWindowMemory(
                 memory_key="chat_history",
                 return_messages=True,
-                k=4,
-                input_key="user_input"
+                k=4
             )
             chat = LLMChain(
                 llm=llm,
                 prompt=prompt,
                 memory=memory,
-                chain_type="stuff"
+                verbose=True
             )
-            return chat
+            return chat.predict(input=user_input)

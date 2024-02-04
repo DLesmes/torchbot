@@ -13,7 +13,9 @@ from src.services.chat import Chat
 from src.models.message import Message
 from src.services.retriever import Retriever
 retriever = Retriever()
+from src.clients.llm import Brain
+brain = Brain()
 
 if __name__ == "__main__":
-    chatbot = Chat(user_id='3001234567')
-    chatbot.start()
+    res = brain.chat('who are you?')
+    print(res)
