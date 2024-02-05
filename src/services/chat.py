@@ -3,6 +3,8 @@
 # Base
 import logging
 import time
+import json
+import os
 # Repo imports
 from settings import Settings
 settings = Settings()
@@ -12,11 +14,30 @@ telegram = Telegram()
 from src.services.retriever import Retriever
 retriever = Retriever()
 
+
 class Chat:
     """ chat service """
-    def __init__(self, user_id: str):
+    def __init__(
+            self,
+            user_id: str,
+            chat_id: int = int(-1)
+    ):
         self.offset = 0
         self.user_id = user_id
+        self.chat_id = chat_id
+        self.file = 'data/history.json'
+        if not os.path.exists(self.file):
+            json.dump({}, open(self.file, 'w'))
+
+    def memory(self):
+        """ memory chat """
+        dict_history = json.load(open(self.file))
+        if self.user_id in dict_history.keys():
+            full_chat = dict_history[self.user_id][self.chat_id]['full_chat']
+            memory = [(reply['role'], reply['content']) for reply in full_chat]
+            return memory
+        else:
+            return []
 
     def start(self):
         """ start the chat
