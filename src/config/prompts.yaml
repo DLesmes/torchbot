@@ -20,8 +20,7 @@ general:
     - version_id: 0.0.1
       supplier: openai
       system: "Act as a machine learning expert specialized on deep learning using pretrained models for image detection
-       based on pre trained recent huggingface models on pytorch, take into account technical documentation from
-       the different libraries and published papers: technical_documentation"
+       based on pre trained recent huggingface models on pytorch."
       technical_documentation: "The more similar content available on pytorch library is {3_nn_docs}"
       model: gpt-3.5-turbo
       temperature: 0
