@@ -24,7 +24,7 @@ if __name__ == "__main__":
     memory = chatbot.memory()
     print(memory)
     res = model.chat(
-        user_input='how are you acting?',
+        user_input='why did you save me?',
         history=memory
     )
     print(res)

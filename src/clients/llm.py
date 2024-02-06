@@ -9,6 +9,7 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
     PromptTemplate
 )
+from langchain.schema import SystemMessage
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferWindowMemory, ConversationBufferMemory
 
@@ -52,27 +53,42 @@ class Model:
                 max_tokens=self.prompt['max_tokens'],
                 model_kwargs=self.kwars
             )
-            system = f"""System: {history[0][1]}"""
-            pre_template = """
-{chat_history}
-Human: {user_input}
-AI:
-            """
-            template = system+pre_template
-            prompt = PromptTemplate(
-                input_variables=["chat_history", "user_input"], template=template
+        else:
+            llm = ChatOpenAI(
+                model=self.prompt['model'],
+                temperature=self.prompt['temperature'],
+                max_tokens=self.prompt['max_tokens'],
+                model_kwargs=self.kwars
             )
-            memory = ConversationBufferMemory(memory_key="chat_history", prompt_input_key="user_input")
-            for reply in range(1, len(history),2):
-                if len(history) > 0:
-                    memory.save_context(
+        system = f"""System: {history[0][1]}"""
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                SystemMessage(
+                    content=system
+                ),  # The persistent system prompt
+                MessagesPlaceholder(
+                    variable_name="chat_history"
+                ),  # Where the memory will be stored.
+                HumanMessagePromptTemplate.from_template(
+                    "{user_input}"
+                ),  # Where the human input will be injected
+            ]
+        )
+        memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+        for reply in range(1, len(history),2):
+            if len(history) > 0:
+                memory.save_context(
                     {"input": history[reply][1]},
                     {"output": history[reply+1][1]}
-                    )
-            chat = LLMChain(
-                llm=llm,
-                prompt=prompt,
-                memory=memory,
-                verbose=True
-            )
-            return chat.predict(user_input=user_input)
+                )
+        memory.load_memory_variables({})
+        chat = LLMChain(
+            llm=llm,
+            prompt=prompt,
+            memory=memory,
+            verbose=True
+        )
+        return chat.predict(user_input=user_input)
