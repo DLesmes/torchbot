@@ -13,9 +13,11 @@ from src.clients.telegram import Telegram
 telegram = Telegram()
 from src.services.retriever import Retriever
 retriever = Retriever()
+from src.clients.llm import Model
+model = Model()
 
 
-class Chat:
+class Agent:
     """ chat service """
     def __init__(
             self,
@@ -49,17 +51,42 @@ class Chat:
                     self.offset = reply["reply_id"] + 1
                     logging.info(reply)
                     print(reply)
+                    # RAG process
+                    technical_documentation = retriever.query(reply['message']['text'])
+                    print(technical_documentation)
+                    if len(technical_documentation) > 0:
+                        docs = """. Take into account technical documentation from the different libraries and published papers:
+                        {technical_documentation}"""
+                        technical_documentation = ', '.join(technical_documentation)
+                        docs = docs.format(technical_documentation=technical_documentation)
+                        augmented_reply = f"""{reply['message']['text']}{docs}"""
+                    else:
+                        print('There is no technical documentation')
+                        augmented_reply = reply['message']['text']
+                    # saving the conversation
                     message = Message(
                         user_id=self.user_id,
                         role='user',
-                        content=reply['message']['text'],
+                        content=augmented_reply,
                         timestamp=reply['message']['date']
                     )
                     message.update()
-                    res = retriever.query(reply['message']['text'])
-                    print(res)
+                    # Ask the model to get the answer
+                    memory = self.memory()
+                    print(memory)
+                    model_answer = model.chat(
+                        user_input=augmented_reply,
+                        history=memory
+                    )
+                    message = Message(
+                        user_id=self.user_id,
+                        role='assistant',
+                        content=model_answer
+                    )
+                    message.update()
+                    print(model_answer)
                 time.sleep(int(settings.LISTENER_AWAITING))
         except Exception as e:
-            default_error_message = f"Error chatting: {e}"
+            default_error_message = f"Error starting the agent: {e}"
             logging.error(default_error_message)
             return default_error_message

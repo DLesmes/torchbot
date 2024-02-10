@@ -37,15 +37,13 @@ class Model:
     def chat(
         self,
         user_input: str,
-        history: list,
-        technical_documentation: list
+        history: list
     ):
         """
         Use a LLM to generate an answer to the user
 
         :param user_input: user input
         :param history: memory
-        :param technical_documentation: docs
         :return: the object to interact with the LLM
         """
         if self.prompt['supplier'] == 'openai':
@@ -62,15 +60,7 @@ class Model:
                 max_tokens=self.prompt['max_tokens'],
                 model_kwargs=self.kwars
             )
-        if technical_documentation is not None:
-            docs = """Take into account technical documentation from the different libraries and published papers:
-            {technical_documentation}
-            """
-            technical_documentation = ', '.join(technical_documentation)
-            docs = docs.format(technical_documentation=technical_documentation)
-            system = f"""System: {history[0][1]} {docs}"""
-        else:
-            system = f"""System: {history[0][1]}"""
+        system = f"""System: {history[0][1]}"""
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
@@ -88,8 +78,14 @@ class Model:
             memory_key="chat_history",
             return_messages=True
         )
-        for reply in range(1, len(history),2):
-            if len(history) > 0:
+        if len(history) > 0 and len(history) % 2 != 0:
+            for reply in range(1, len(history), 2):
+                memory.save_context(
+                    {"input": history[reply][1]},
+                    {"output": history[reply+1][1]}
+                )
+        else:
+            for reply in range(1, len(history)-1, 2):
                 memory.save_context(
                     {"input": history[reply][1]},
                     {"output": history[reply+1][1]}
