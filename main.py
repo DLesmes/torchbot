@@ -18,7 +18,7 @@ model = Model()
 
 if __name__ == "__main__":
     chatbot = Agent(
-        user_id='3013713784',
+        user_id='3053713784',
         chat_id=0
     )
     memory = chatbot.start()

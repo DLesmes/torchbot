@@ -85,6 +85,10 @@ class Agent:
                     )
                     message.update()
                     print(model_answer)
+                    telegram.replier(
+                        chat_id=reply['message']['chat']['id'],
+                        content=model_answer
+                    )
                 time.sleep(int(settings.LISTENER_AWAITING))
         except Exception as e:
             default_error_message = f"Error starting the agent: {e}"
