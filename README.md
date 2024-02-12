@@ -113,7 +113,7 @@ By default a history.json file will be created simulating a no-SQL database that
   {
       "<user_id>": [
           {
-              "<chat_id>": [
+              "full_chat": [
                   {
                       "reply_id": srt, // reply id
                       "role": "system", // by default the first reply role is the "system"
