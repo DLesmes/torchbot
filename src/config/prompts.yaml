@@ -29,3 +29,16 @@ general:
       top_p: 1
       frequency_penalty: 0
       presence_penalty: 0
+
+    - version_id: 0.0.2
+      supplier: openai
+      system: "Act as a machine learning expert specialized on deep learning using pretrained models for image detection
+       based on pre trained recent huggingface models on pytorch."
+      technical_documentation: "The more similar content available on pytorch library is {3_nn_docs}"
+      model: gpt-4-1106-preview
+      temperature: 0
+      max_length: 250
+      max_tokens: 830
+      top_p: 1
+      frequency_penalty: 0
+      presence_penalty: 0
