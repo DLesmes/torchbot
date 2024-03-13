@@ -37,6 +37,8 @@ class Agent:
         if self.user_id in dict_history.keys():
             full_chat = dict_history[self.user_id][self.chat_id]['full_chat']
             memory = [(reply['role'], reply['content']) for reply in full_chat]
+            if len(memory) > int(settings.MAX_MEMORY):
+                memory = [memory[0]] + memory[-10:]
             return memory
         else:
             return []
