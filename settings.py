@@ -16,3 +16,4 @@ class Settings:
     CHUNK_OVERLAP = os.getenv("CHUNK_OVERLAP")
     K = os.getenv("K")
     CHROMA_NAME_INDEX = os.getenv("CHROMA_NAME_INDEX")
+    MAX_MEMORY = os.getenv("MAX_MEMORY")
